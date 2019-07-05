@@ -1,0 +1,100 @@
+.error {
+  width: 100%;
+  position: absolute;
+  height: 100%;
+}
+
+.error .bgArea {
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  position: relative;
+  background: #3dc3bb;
+}
+
+.error .bgArea .bg {
+  width: 100%;
+  height: 100%;
+}
+
+.error .bgArea .bg img {
+  width: 100%;
+  height: 100%;
+}
+
+.error .bgArea .contText {
+  position: absolute;
+  z-index: 9;
+  color: #fff;
+  font-family: "roboto";
+  text-align: center;
+  width: 100%;
+  font-size: 5em;
+  font-weight: bold;
+  top: 10%;
+}
+
+.error .textArea {
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  padding-top: 10%;
+}
+
+.error .textArea .subject {
+  font-size: 72px;
+  color: #545454;
+  font-weight: 200;
+  text-align: center;
+}
+
+.error .textArea .substance {
+  font-size: 26px;
+  color: #545454;
+  font-weight: 200;
+  text-align: center;
+}
+
+.error .textArea .afterSelect {
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.error .textArea .afterSelect li {
+  width: 80px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.error .textArea .afterSelect li .icon {
+  width: 70px;
+  margin: 0 auto;
+}
+
+.error .textArea .afterSelect li .text {
+  text-align: center;
+  color: #3dc3bb;
+  margin-top: 5px;
+  font-family: "roboto";
+  font-weight: 300;
+}
+
+@media screen and (max-width: 960px) {
+  .error .bgArea .contText {
+    font-size: 3em;
+    top: 3%;
+  }
+
+  .error .textArea .subject {
+    font-size: 3em;
+  }
+
+  .error .textArea .substance {
+    font-size: 1em;
+  }
+
+  .error .bgArea {
+    height: 60%;
+  }
+}
