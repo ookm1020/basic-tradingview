@@ -19,7 +19,7 @@
 
 
 
-![](C:\Users\ookm1\Desktop\TradingView\트레이딩 뷰 신청서 양식.PNG)
+![](./image/1.PNG)
 
 
 
@@ -34,7 +34,7 @@
 
 create-react-app의 구조에 charting_library폴더를 넣습니다.
 
-![](C:\Users\ookm1\Desktop\ca1.PNG)
+![](./image/2.PNG)
 
 TradingView에서 제공해주는 라이브러리를 다운로드 받으면 다음과 같은 폴더의 구조는 위와 같습니다. (charting_library)
 
@@ -90,7 +90,7 @@ export default App;
 
 TVChartContainer 폴더 구조
 
-![](C:\Users\ookm1\Desktop\컴포넌트 구조.PNG)
+![](./image/3.PNG)
 
 
 
@@ -522,7 +522,7 @@ npm start
 
 [예제 결과]
 
-![](C:\Users\ookm1\Desktop\123.PNG)
+![](./image/4.PNG)
 
 
 
