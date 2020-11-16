@@ -9,7 +9,7 @@ import historyProvider from './historyProvider.js'
 // keep track of subscriptions
 var _subs = []
 
-const socket = socketClient(`http://localhost:3000?data=KRW-BTC`);
+const socket = socketClient(`http://localhost:3001?data=KRW-BTC`);
 
 export default {
  subscribeBars: function(symbolInfo, resolution, updateCb, uid, resetCache) {
@@ -49,16 +49,16 @@ _subs.push(newSub)
 // })
 
 socket.on('/ticker', (e) => {
-  console.log("매치 소켓 데이터 : ", e);
+  console.log("match data: ", e);
 
   const data = {
     sub_type: parseInt(0, 10), // ???
-    exchange: "BASIC-TRADINGVIEW", // 거래소이름
+    exchange: "BITHUMB", // 거래소이름
     to_sym: e.code.split("-")[1], // coinTicker
     from_sym: e.code.split("-")[0], // market
     // trade_id: _data[5],
     trade_id: "",
-    ts: e.timestamp * 1000, // timestamp
+    ts: e.timestamp / 1000, // timestamp
     volume: e.trade_volume, // 거래량
     price: e.trade_price // 가격
   };

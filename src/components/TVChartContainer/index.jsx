@@ -10,7 +10,7 @@ function getLanguageFromURL() {
 
 export class TVChartContainer extends React.PureComponent {
   static defaultProps = {
-    symbol: "Coinbase:BTC/USD",
+    symbol: "BITHUMB:BTC/KRW",
     interval: "1",
     containerId: "tv_chart_container",
     libraryPath: "/charting_library/",
@@ -20,7 +20,7 @@ export class TVChartContainer extends React.PureComponent {
     userId: "public_user_id",
     fullscreen: false,
     autosize: true,
-    studiesOverrides: {}
+    studiesOverrides: {},
   };
 
   componentDidMount() {
