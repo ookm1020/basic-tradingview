@@ -1,11 +1,15 @@
+import socketClient from "socket.io-client";
+
 // api/stream.js
 import historyProvider from './historyProvider.js'
 // we use Socket.io client to connect to cryptocompare's socket.io stream
-var io = require('socket.io-client')
-var socket_url = 'wss://streamer.cryptocompare.com'
-var socket = io(socket_url)
+// var io = require('socket.io-client')
+// var socket_url = 'wss://streamer.cryptocompare.com'
+// var socket = io(socket_url)
 // keep track of subscriptions
 var _subs = []
+
+const socket = socketClient(`http://localhost:3000?data=KRW-BTC`);
 
 export default {
  subscribeBars: function(symbolInfo, resolution, updateCb, uid, resetCache) {
@@ -34,52 +38,49 @@ _subs.push(newSub)
  }
 }
 
-socket.on('connect', () => {
- console.log('===Socket connected')
-})
-socket.on('disconnect', (e) => {
- console.log('===Socket disconnected:', e)
-})
-socket.on('error', err => {
- console.log('====socket error', err)
-})
-socket.on('m', (e) => {
- // here we get all events the CryptoCompare connection has subscribed to
- // we need to send this new data to our subscribed charts
- const _data= e.split('~')
- if (_data[0] === "3") {
-  // console.log('Websocket Snapshot load event complete')
-  return
- }
- const data = {
-  sub_type: parseInt(_data[0],10),
-  exchange: _data[1],
-  to_sym: _data[2],
-  from_sym: _data[3],
-  trade_id: _data[5],
-  ts: parseInt(_data[6],10),
-  volume: parseFloat(_data[7]),
-  price: parseFloat(_data[8])
- }
- 
- const channelString = `${data.sub_type}~${data.exchange}~${data.to_sym}~${data.from_sym}`
- 
- const sub = _subs.find(e => e.channelString === channelString)
- 
- if (sub) {
-  // disregard the initial catchup snapshot of trades for already closed candles
-  if (data.ts < sub.lastBar.time / 1000) {
-    return
-   }
-  
-var _lastBar = updateBar(data, sub)
+// socket.on('connect', () => {
+//  console.log('===Socket connected')
+// })
+// socket.on('disconnect', (e) => {
+//  console.log('===Socket disconnected:', e)
+// })
+// socket.on('error', err => {
+//  console.log('====socket error', err)
+// })
 
-// send the most recent bar back to TV's realtimeUpdate callback
-  sub.listener(_lastBar)
-  // update our own record of lastBar
-  sub.lastBar = _lastBar
- }
-})
+socket.on('/ticker', (e) => {
+  console.log("매치 소켓 데이터 : ", e);
+
+  const data = {
+    sub_type: parseInt(0, 10), // ???
+    exchange: "BASIC-TRADINGVIEW", // 거래소이름
+    to_sym: e.code.split("-")[1], // coinTicker
+    from_sym: e.code.split("-")[0], // market
+    // trade_id: _data[5],
+    trade_id: "",
+    ts: e.timestamp * 1000, // timestamp
+    volume: e.trade_volume, // 거래량
+    price: e.trade_price // 가격
+  };
+
+  const channelString = `${data.sub_type}~${data.exchange}~${data.to_sym}~${data.from_sym}`;
+
+  const sub = _subs.find(e => e.channelString === channelString);
+
+  if (sub) {
+    // disregard the initial catchup snapshot of trades for already closed candles
+    if (data.ts < sub.lastBar.time / 1000) {
+      return;
+    }
+
+    var _lastBar = updateBar(data, sub);
+
+    // send the most recent bar back to TV's realtimeUpdate callback
+    sub.listener(_lastBar);
+    // update our own record of lastBar
+    sub.lastBar = _lastBar;
+  }
+});
 
 // Take a single trade, and subscription record, return updated bar
 function updateBar(data, sub) {
